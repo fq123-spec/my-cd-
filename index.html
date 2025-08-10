@@ -676,215 +676,85 @@
     </div>
     
     <script>
-        // 页面加载优化 - 改进版本
+        // 简化的页面加载优化
         let resourcesLoaded = 0;
-        let resourcesFailed = 0;
-        const totalResources = 6; // 图片数量
-        let loadingCompleted = false;
-        let loadTimeout = null;
+        const totalResources = 6;
         
         // 显示错误信息
         function showError(message) {
             console.log('错误信息:', message);
-            const errorDiv = document.getElementById('errorMessage');
-            if (errorDiv) {
-                errorDiv.textContent = message;
-                errorDiv.style.display = 'block';
-                setTimeout(() => {
-                    errorDiv.style.display = 'none';
-                }, 5000);
-            }
         }
         
-        // 资源加载完成检查 - 改进版本
+        // 资源加载完成检查
         function checkResourcesLoaded() {
             resourcesLoaded++;
-            console.log(`资源加载进度: ${resourcesLoaded}/${totalResources}`);
-            
-            // 检查是否所有资源都已处理（成功或失败）
-            if (resourcesLoaded + resourcesFailed >= totalResources) {
-                completeLoading();
+            if (resourcesLoaded >= totalResources) {
+                setTimeout(hideLoading, 300);
             }
         }
         
-        // 资源加载失败处理
-        function handleResourceError() {
-            resourcesFailed++;
-            console.log(`资源加载失败: ${resourcesFailed}`);
-            checkResourcesLoaded();
-        }
-        
-        // 完成加载
-        function completeLoading() {
-            if (loadingCompleted) return;
-            loadingCompleted = true;
-            
-            console.log('所有资源处理完成，开始隐藏加载状态');
-            
-            // 清除超时
-            if (loadTimeout) {
-                clearTimeout(loadTimeout);
-                loadTimeout = null;
-            }
-            
-            // 延迟隐藏加载状态，确保页面稳定
-            setTimeout(() => {
-                hideLoading();
-            }, 300);
-        }
-        
-        // 隐藏加载状态 - 改进版本
+        // 隐藏加载状态
         function hideLoading() {
             const loading = document.getElementById('loading');
             const container = document.getElementById('mainContainer');
             
-            if (!loading || !container) {
-                console.error('找不到必要的DOM元素');
-                return;
+            if (loading && container) {
+                loading.classList.add('hidden');
+                container.classList.add('loaded');
+                
+                setTimeout(() => {
+                    if (loading && loading.parentNode) {
+                        loading.style.display = 'none';
+                    }
+                }, 500);
             }
-            
-            console.log('隐藏加载状态');
-            
-            // 添加隐藏动画
-            loading.classList.add('hidden');
-            container.classList.add('loaded');
-            
-            // 延迟完全移除加载元素
-            setTimeout(() => {
-                if (loading && loading.parentNode) {
-                    loading.style.display = 'none';
-                    console.log('加载状态已完全隐藏');
-                }
-            }, 500);
         }
         
-        // 强制完成加载（超时保护）
-        function forceCompleteLoading() {
-            if (loadingCompleted) return;
-            
-            console.log('强制完成加载（超时保护）');
-            loadingCompleted = true;
-            
-            if (loadTimeout) {
-                clearTimeout(loadTimeout);
-                loadTimeout = null;
-            }
-            
-            hideLoading();
-        }
-        
-        // 页面加载完成后执行 - 改进版本
+        // 页面加载完成后执行
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM加载完成，开始初始化');
+            console.log('DOM加载完成');
             
-            // 设置超时保护
-            loadTimeout = setTimeout(() => {
-                if (!loadingCompleted) {
-                    console.log('加载超时，强制完成');
-                    forceCompleteLoading();
-                }
-            }, 8000); // 8秒超时
-            
-            // 预加载图片 - 改进版本
+            // 预加载图片
             const images = document.querySelectorAll('.photo-img');
-            console.log(`找到 ${images.length} 张图片`);
             
             if (images.length === 0) {
-                console.log('没有找到图片，直接完成加载');
-                completeLoading();
+                hideLoading();
                 return;
             }
             
             images.forEach((img, index) => {
-                console.log(`处理图片 ${index + 1}: ${img.src}`);
-                
                 if (img.complete && img.naturalWidth > 0) {
-                    console.log(`图片 ${index + 1} 已缓存`);
                     checkResourcesLoaded();
                 } else {
-                    // 绑定加载成功事件
-                    img.addEventListener('load', function() {
-                        console.log(`图片 ${index + 1} 加载成功`);
-                        checkResourcesLoaded();
-                    }, { once: true }); // 确保事件只绑定一次
-                    
-                    // 绑定加载失败事件
-                    img.addEventListener('error', function() {
-                        console.log(`图片 ${index + 1} 加载失败`);
-                        handleResourceError();
-                    }, { once: true }); // 确保事件只绑定一次
-                    
-                    // 设置图片加载超时
-                    setTimeout(() => {
-                        if (!img.complete || img.naturalWidth === 0) {
-                            console.log(`图片 ${index + 1} 加载超时`);
-                            handleResourceError();
-                        }
-                    }, 5000); // 5秒图片加载超时
+                    img.addEventListener('load', checkResourcesLoaded, { once: true });
+                    img.addEventListener('error', checkResourcesLoaded, { once: true });
                 }
             });
             
-            // 如果所有图片都已加载完成，立即完成加载
-            if (resourcesLoaded >= totalResources) {
-                console.log('所有图片已缓存，立即完成加载');
-                setTimeout(completeLoading, 300);
-            }
+            // 超时保护
+            setTimeout(() => {
+                if (document.getElementById('loading').style.display !== 'none') {
+                    hideLoading();
+                }
+            }, 5000);
         });
         
-        // 页面完全加载后的事件
-        window.addEventListener('load', function() {
-            console.log('页面完全加载完成');
-            
-            // 如果还没有完成加载，强制完成
-            if (!loadingCompleted) {
-                setTimeout(() => {
-                    if (!loadingCompleted) {
-                        console.log('页面加载完成但资源检查未完成，强制完成');
-                        forceCompleteLoading();
-                    }
-                }, 1000);
-            }
-        });
-        
-        // 页面错误处理 - 改进版本
+        // 页面错误处理
         window.addEventListener('error', function(e) {
             console.error('页面错误:', e.error);
-            if (!loadingCompleted) {
-                showError('页面加载出现问题，请刷新重试');
-                forceCompleteLoading();
-            }
         });
         
-        // 网络状态监听 - 改进版本
+        // 网络状态监听
         window.addEventListener('online', function() {
             console.log('网络已连接');
         });
         
         window.addEventListener('offline', function() {
             console.log('网络已断开');
-            if (!loadingCompleted) {
-                showError('网络连接已断开，请检查网络设置');
-                forceCompleteLoading();
-            }
         });
-        
-        // 页面可见性变化监听
-        document.addEventListener('visibilitychange', function() {
-            if (document.visibilityState === 'visible' && !loadingCompleted) {
-                console.log('页面变为可见，检查加载状态');
-                // 如果页面重新变为可见但加载未完成，给一个额外的机会
-                setTimeout(() => {
-                    if (!loadingCompleted && resourcesLoaded + resourcesFailed >= totalResources) {
-                        completeLoading();
-                    }
-                }, 1000);
-            }
-        });
-        
-        // 其余代码保持不变...
-        const cards = document.querySelectorAll('.photo-card');
         
         // 卡片悬停效果
+        const cards = document.querySelectorAll('.photo-card');
         cards.forEach(card => {
             card.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateY(-10px)';
@@ -958,9 +828,8 @@
             modalNumber.textContent = number;
             
             modal.style.display = "block";
-            document.body.style.overflow = "hidden"; // 防止背景滚动
+            document.body.style.overflow = "hidden";
             
-            // 创建缩略图
             createThumbnails();
         }
         
@@ -993,7 +862,7 @@
         if (closeBtn) {
             closeBtn.onclick = function() {
                 modal.style.display = "none";
-                document.body.style.overflow = "auto"; // 恢复背景滚动
+                document.body.style.overflow = "auto";
             }
         }
         
@@ -1002,7 +871,7 @@
             modal.onclick = function(event) {
                 if (event.target === modal) {
                     modal.style.display = "none";
-                    document.body.style.overflow = "auto"; // 恢复背景滚动
+                    document.body.style.overflow = "auto";
                 }
             }
         }
