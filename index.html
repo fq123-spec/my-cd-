@@ -6,14 +6,9 @@
     <title>精选技师团队展示</title>
     
     <!-- 预加载关键资源 -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" as="style">
-    
-    <!-- 外部资源加载 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
-          onerror="this.onerror=null; this.href='data:text/css,/* Font Awesome fallback */'; console.log('Font Awesome 加载失败，使用备用方案');">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet"
-          onerror="this.onerror=null; this.href='data:text/css,/* Google Fonts fallback */'; console.log('Google Fonts 加载失败，使用系统字体');">
+    <link rel="preload" as="image" href="技师照片/微信图片_20250804120939.jpg">
+    <link rel="preload" as="image" href="技师照片/微信图片_20250804121016.jpg">
+    <link rel="preload" as="image" href="技师照片/微信图片_20250804121023.jpg">
     
     <style>
         * {
@@ -22,16 +17,23 @@
             box-sizing: border-box;
         }
         
+        /* 基础样式 */
+        html {
+            scroll-behavior: smooth;
+        }
+        
         body {
-            font-family: 'Noto Sans SC', 'Microsoft YaHei', 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Microsoft YaHei', 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             color: #fff;
             line-height: 1.6;
             padding: 20px;
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
-        /* 加载状态指示器 */
+        /* 优化的加载指示器 */
         .loading {
             position: fixed;
             top: 0;
@@ -40,24 +42,38 @@
             height: 100%;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            visibility: visible;
         }
         
         .loading.hidden {
             opacity: 0;
+            visibility: hidden;
             pointer-events: none;
         }
         
         .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(233, 69, 96, 0.3);
-            border-top: 3px solid #e94560;
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(233, 69, 96, 0.2);
+            border-top: 5px solid #e94560;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 1.2s linear infinite;
+            margin-bottom: 25px;
+            box-shadow: 0 0 20px rgba(233, 69, 96, 0.3);
+        }
+        
+        .loading-text {
+            color: #e94560;
+            font-size: 1.3rem;
+            text-align: center;
+            font-weight: 500;
+            text-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+            animation: pulse 2s ease-in-out infinite;
         }
         
         @keyframes spin {
@@ -65,20 +81,29 @@
             100% { transform: rotate(360deg); }
         }
         
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+        
+        /* 主容器 */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s ease;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            filter: blur(2px);
         }
         
         .container.loaded {
             opacity: 1;
             transform: translateY(0);
+            filter: blur(0);
         }
         
+        /* 头部样式 */
         header {
             text-align: center;
             margin: 30px 0 50px;
@@ -90,305 +115,150 @@
             color: #e94560;
             margin-bottom: 15px;
             position: relative;
-            display: inline-block;
-            text-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
-        }
-        
-        h1:after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(to right, #e94560, #0f3460);
-            border-radius: 2px;
         }
         
         .subtitle {
             font-size: 1.2rem;
-            color: #a9a9a9;
+            color: #b8b8b8;
             max-width: 600px;
             margin: 0 auto;
         }
         
-        /* 照片网格样式 - 优化版 */
+        /* 照片网格 */
         .photo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
-            margin-bottom: 60px;
+            margin: 50px 0;
         }
         
         .photo-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
-            animation: slideUp 0.6s ease;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            position: relative;
-            border: 1px solid rgba(233, 69, 96, 0.3);
             cursor: pointer;
+            border: 1px solid rgba(233, 69, 96, 0.3);
         }
         
         .photo-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(233, 69, 96, 0.3);
-            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(233, 69, 96, 0.3);
+            border-color: #e94560;
         }
         
-        .photo-card:nth-child(1) { animation-delay: 0.1s; }
-        .photo-card:nth-child(2) { animation-delay: 0.2s; }
-        .photo-card:nth-child(3) { animation-delay: 0.3s; }
-        .photo-card:nth-child(4) { animation-delay: 0.4s; }
-        .photo-card:nth-child(5) { animation-delay: 0.5s; }
-        
-        /* 照片容器 - 确保照片完整显示 */
         .img-container {
-            width: 100%;
-            height: 350px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            background: #000;
             position: relative;
-        }
-        
-        /* 装饰角 */
-        .img-container::before, .img-container::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            z-index: 2;
-        }
-        
-        .img-container::before {
-            top: 10px;
-            left: 10px;
-            border-top: 2px solid #e94560;
-            border-left: 2px solid #e94560;
-        }
-        
-        .img-container::after {
-            top: 10px;
-            right: 10px;
-            border-top: 2px solid #e94560;
-            border-right: 2px solid #e94560;
+            height: 300px;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.3);
         }
         
         .photo-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
-            transition: transform 0.5s ease;
+            transition: transform 0.3s ease;
         }
         
         .photo-card:hover .photo-img {
             transform: scale(1.05);
         }
         
-        .photo-info {
-            padding: 20px;
-            flex-grow: 1;
+        /* 备用图片样式 */
+        .image-fallback {
             display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.3), rgba(15, 52, 96, 0.3));
+        }
+        
+        .fallback-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+        
+        .fallback-text {
+            font-size: 1.3rem;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+        
+        .photo-info {
+            padding: 20px;
+            display: flex;
             justify-content: space-between;
-            position: relative;
-            z-index: 2;
+            align-items: flex-start;
         }
         
         .photo-title {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: #e94560;
-            margin-bottom: 10px;
-            font-weight: 600;
+            margin-bottom: 8px;
         }
         
         .photo-desc {
             color: #d1d1d1;
-            font-size: 1rem;
+            font-size: 0.95rem;
             line-height: 1.5;
         }
         
         .photo-number {
-            display: inline-block;
-            background: linear-gradient(to right, #e94560, #0f3460);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
+            color: #888;
             font-size: 0.9rem;
-            margin-top: 10px;
-            font-weight: 500;
+            white-space: nowrap;
+            margin-left: 15px;
         }
         
-        /* 底部醒目文字 */
+        /* 高亮区域 */
         .highlight-section {
             background: linear-gradient(135deg, #e94560, #0f3460);
-            border-radius: 15px;
-            padding: 40px 30px;
+            padding: 40px;
+            border-radius: 20px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.4);
-            margin: 40px 0;
-            animation: fadeInUp 1s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .highlight-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-            transform: rotate(30deg);
-            z-index: 1;
+            margin: 50px 0;
+            animation: pulse 2s infinite;
         }
         
         .highlight-text {
-            font-size: 2.5rem;
-            color: white;
-            font-weight: 700;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            margin: 0;
-            line-height: 1.3;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .highlight-text i {
-            margin: 0 15px;
-            color: #ffd700;
-            font-size: 2.8rem;
-            vertical-align: middle;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
         
         .phone-number {
-            display: block;
-            font-size: 3rem;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fff;
             margin: 20px 0;
-            color: #ffd700;
-            letter-spacing: 2px;
-            text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
-            position: relative;
-            z-index: 2;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .phone-number:hover {
-            transform: scale(1.05);
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.9);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
         
         .notice {
-            font-size: 1.2rem;
-            color: #ffb6c1;
-            margin-top: 20px;
-            font-style: italic;
-            position: relative;
-            z-index: 2;
+            color: #f0f0f0;
+            font-size: 1rem;
+            opacity: 0.9;
         }
         
-        /* 动画 */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes slideUp {
-            from { 
-                opacity: 0; 
-                transform: translateY(30px);
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes fadeInUp {
-            from { 
-                opacity: 0; 
-                transform: translateY(40px);
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .photo-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            .highlight-text {
-                font-size: 1.8rem;
-            }
-            
-            .phone-number {
-                font-size: 2.2rem;
-            }
-            
-            .img-container {
-                height: 300px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .highlight-text {
-                font-size: 1.5rem;
-            }
-            
-            .phone-number {
-                font-size: 1.8rem;
-            }
-            
-            .highlight-text i {
-                font-size: 2rem;
-                margin: 0 8px;
-            }
-            
-            .img-container {
-                height: 250px;
-            }
-        }
-        
+        /* 底部 */
         footer {
             text-align: center;
-            padding: 30px 0;
-            color: #7f8c8d;
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            margin-top: 30px;
+            margin-top: 50px;
+            padding: 20px;
+            color: #888;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        /* 图片放大模态框样式 */
+        /* 模态框样式 */
         .modal {
             display: none;
             position: fixed;
@@ -454,17 +324,6 @@
             color: #d1d1d1;
         }
         
-        @keyframes zoomIn {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-        
         /* 导航按钮 */
         .prev, .next {
             position: absolute;
@@ -492,7 +351,7 @@
             background-color: rgba(233, 69, 96, 0.8);
         }
         
-        /* 缩略图指示器 */
+        /* 缩略图 */
         .thumbnail-container {
             position: absolute;
             bottom: 80px;
@@ -525,26 +384,56 @@
             border-color: #e94560;
         }
         
-        /* 错误处理样式 */
-        .error-message {
-            background: rgba(231, 76, 60, 0.1);
-            border: 1px solid #e74c3c;
-            color: #e74c3c;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px 0;
-            display: none;
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        /* 图标 */
+        .icon-phone::before { content: "📞"; }
+        .icon-heart::before { content: "❤️"; }
+        .icon-arrow-left::before { content: "◀"; }
+        .icon-arrow-right::before { content: "▶"; }
+        .icon-close::before { content: "✕"; }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .photo-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .highlight-text {
+                font-size: 1.5rem;
+            }
+            
+            .phone-number {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- 加载状态指示器 -->
+    <!-- 加载指示器 -->
     <div class="loading" id="loading">
         <div class="loading-spinner"></div>
+        <div class="loading-text">正在加载...</div>
     </div>
-    
-    <!-- 错误信息显示 -->
-    <div class="error-message" id="errorMessage"></div>
     
     <div class="container" id="mainContainer">
         <header>
@@ -557,7 +446,13 @@
             <div class="photo-card" data-index="0">
                 <div class="img-container">
                     <img src="技师照片/微信图片_20250804120939.jpg" class="photo-img" 
-                         onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuWbvueJh+WbvueJhzwvdGV4dD48L3N2Zz4='; console.log('图片加载失败:', this.src);">
+                         alt="二号技师" loading="eager"
+                         onerror="handleImageError(this)"
+                         onload="handleImageLoad(this)">
+                    <div class="image-fallback" style="display:none;">
+                        <div class="fallback-icon">📷</div>
+                        <div class="fallback-text">二号技师</div>
+                    </div>
                 </div>
                 <div class="photo-info">
                     <div>
@@ -572,7 +467,13 @@
             <div class="photo-card" data-index="1">
                 <div class="img-container">
                     <img src="技师照片/微信图片_20250804121016.jpg" class="photo-img"
-                         onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuWbvueJh+WbvueJhzwvdGV4dD48L3N2Zz4='; console.log('图片加载失败:', this.src);">
+                         alt="十号技师" loading="eager"
+                         onerror="handleImageError(this)"
+                         onload="handleImageLoad(this)">
+                    <div class="image-fallback" style="display:none;">
+                        <div class="fallback-icon">📷</div>
+                        <div class="fallback-text">十号技师</div>
+                    </div>
                 </div>
                 <div class="photo-info">
                     <div>
@@ -587,7 +488,13 @@
             <div class="photo-card" data-index="2">
                 <div class="img-container">
                     <img src="技师照片/微信图片_20250804121023.jpg" class="photo-img"
-                         onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuWbvueJh+WbvueJhzwvdGV4dD48L3N2Zz4='; console.log('图片加载失败:', this.src);">
+                         alt="六号技师" loading="eager"
+                         onerror="handleImageError(this)"
+                         onload="handleImageLoad(this)">
+                    <div class="image-fallback" style="display:none;">
+                        <div class="fallback-icon">📷</div>
+                        <div class="fallback-text">六号技师</div>
+                    </div>
                 </div>
                 <div class="photo-info">
                     <div>
@@ -602,7 +509,13 @@
             <div class="photo-card" data-index="3">
                 <div class="img-container">
                     <img src="技师照片/微信图片_20250804132121.jpg" class="photo-img"
-                         onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuWbvueJh+WbvueJhzwvdGV4dD48L3N2Zz4='; console.log('图片加载失败:', this.src);">
+                         alt="七号技师" loading="eager"
+                         onerror="handleImageError(this)"
+                         onload="handleImageLoad(this)">
+                    <div class="image-fallback" style="display:none;">
+                        <div class="fallback-icon">📷</div>
+                        <div class="fallback-text">七号技师</div>
+                    </div>
                 </div>
                 <div class="photo-info">
                     <div>
@@ -617,7 +530,13 @@
             <div class="photo-card" data-index="4">
                 <div class="img-container">
                     <img src="技师照片/微信图片_20250804121035.jpg" class="photo-img"
-                         onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuWbvueJh+WbvueJhzwvdGV4dD48L3N2Zz4='; console.log('图片加载失败:', this.src);">
+                         alt="一号技师" loading="eager"
+                         onerror="handleImageError(this)"
+                         onload="handleImageLoad(this)">
+                    <div class="image-fallback" style="display:none;">
+                        <div class="fallback-icon">📷</div>
+                        <div class="fallback-text">一号技师</div>
+                    </div>
                 </div>
                 <div class="photo-info">
                     <div>
@@ -632,7 +551,13 @@
             <div class="photo-card" data-index="5">
                 <div class="img-container">
                     <img src="技师照片/微信图片_2025-08-06_210141_574.jpg" class="photo-img"
-                         onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuWbvueJh+WbvueJhzwvdGV4dD48L3N2Zz4='; console.log('图片加载失败:', this.src);">
+                         alt="十八号技师" loading="eager"
+                         onerror="handleImageError(this)"
+                         onload="handleImageLoad(this)">
+                    <div class="image-fallback" style="display:none;">
+                        <div class="fallback-icon">📷</div>
+                        <div class="fallback-text">十八号技师</div>
+                    </div>
                 </div>
                 <div class="photo-info">
                     <div>
@@ -646,9 +571,9 @@
         
         <div class="highlight-section">
             <h2 class="highlight-text">
-                <i class="fas fa-phone-alt"></i>
+                <i class="icon-phone"></i>
                 立即预约体验
-                <i class="fas fa-heart"></i>
+                <i class="icon-heart"></i>
             </h2>
             <div class="phone-number">
                 186-9805-1114
@@ -661,11 +586,11 @@
         </footer>
     </div>
     
-    <!-- 图片放大模态框 -->
+    <!-- 图片查看模态框 -->
     <div id="imageModal" class="modal">
-        <span class="close">&times;</span>
-        <a class="prev">&#10094;</a>
-        <a class="next">&#10095;</a>
+        <span class="close icon-close"></span>
+        <a class="prev icon-arrow-left"></a>
+        <a class="next icon-arrow-right"></a>
         <img class="modal-content" id="expandedImg">
         <div class="image-info">
             <h3 class="image-title" id="modalTitle"></h3>
@@ -676,25 +601,313 @@
     </div>
     
     <script>
-        // 简化的页面加载优化
-        let resourcesLoaded = 0;
-        const totalResources = 6;
+        // 全局变量
+        let loadAttempts = 0;
+        const maxLoadAttempts = 3;
+        let loadTimeout;
+        let pageLoaded = false;
         
-        // 显示错误信息
-        function showError(message) {
-            console.log('错误信息:', message);
-        }
+        // 页面加载完成后的处理
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM加载完成，开始初始化页面');
+            initializePage();
+        });
         
-        // 资源加载完成检查
-        function checkResourcesLoaded() {
-            resourcesLoaded++;
-            if (resourcesLoaded >= totalResources) {
-                setTimeout(hideLoading, 300);
+        // 页面完全加载后的处理
+        window.addEventListener('load', function() {
+            console.log('页面完全加载完成');
+            if (!pageLoaded) {
+                finalizePageLoad();
+            }
+        });
+        
+        // 页面初始化
+        function initializePage() {
+            try {
+                // 设置加载超时 - 5秒后强制显示页面
+                loadTimeout = setTimeout(() => {
+                    console.log('加载超时，强制显示页面');
+                    forceShowPage();
+                }, 5000);
+                
+                // 预加载关键图片
+                preloadCriticalImages();
+                
+                // 设置图片错误处理
+                setupImageErrorHandling();
+                
+                // 设置卡片交互
+                setupCardInteractions();
+                
+                // 设置模态框功能
+                setupModalFunctionality();
+                
+                // 检查页面是否已经准备好
+                checkPageReadiness();
+                
+            } catch (error) {
+                console.error('页面初始化失败:', error);
+                forceShowPage();
             }
         }
         
-        // 隐藏加载状态
-        function hideLoading() {
+        // 预加载关键图片
+        function preloadCriticalImages() {
+            const criticalImages = [
+                '技师照片/微信图片_20250804120939.jpg',
+                '技师照片/微信图片_20250804121016.jpg',
+                '技师照片/微信图片_20250804121023.jpg'
+            ];
+            
+            criticalImages.forEach(src => {
+                const img = new Image();
+                img.onload = () => console.log('关键图片预加载成功:', src);
+                img.onerror = () => console.log('关键图片预加载失败:', src);
+                img.src = src;
+            });
+        }
+        
+        // 设置图片错误处理
+        function setupImageErrorHandling() {
+            // 全局图片错误处理
+            document.addEventListener('error', function(e) {
+                if (e.target.tagName === 'IMG') {
+                    handleImageError(e.target);
+                }
+            }, true);
+        }
+        
+        // 处理图片加载错误
+        function handleImageError(img) {
+            if (img.dataset.errorHandled) return;
+            img.dataset.errorHandled = true;
+            
+            console.log('图片加载失败:', img.src);
+            
+            // 显示备用内容
+            const fallback = img.parentNode.querySelector('.image-fallback');
+            if (fallback) {
+                img.style.display = 'none';
+                fallback.style.display = 'flex';
+            }
+        }
+        
+        // 处理图片加载成功
+        function handleImageLoad(img) {
+            console.log('图片加载成功:', img.src);
+            img.dataset.loaded = true;
+            
+            // 隐藏备用内容
+            const fallback = img.parentNode.querySelector('.image-fallback');
+            if (fallback) {
+                fallback.style.display = 'none';
+            }
+        }
+        
+        // 设置卡片交互
+        function setupCardInteractions() {
+            const cards = document.querySelectorAll('.photo-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+                
+                card.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.index);
+                    openModal(index);
+                });
+            });
+        }
+        
+        // 设置模态框功能
+        function setupModalFunctionality() {
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("expandedImg");
+            const modalTitle = document.getElementById("modalTitle");
+            const modalDesc = document.getElementById("modalDesc");
+            const modalNumber = document.getElementById("modalNumber");
+            const closeBtn = document.getElementsByClassName("close")[0];
+            const prevBtn = document.querySelector('.prev');
+            const nextBtn = document.querySelector('.next');
+            const thumbnailContainer = document.getElementById('thumbnailContainer');
+            
+            let currentIndex = 0;
+            const photoCards = document.querySelectorAll('.photo-card');
+            
+            // 打开模态框
+            window.openModal = function(index) {
+                currentIndex = index || 0;
+                const card = photoCards[currentIndex];
+                
+                if (!card) return;
+                
+                const imgSrc = card.querySelector('.photo-img').src;
+                const title = card.querySelector('.photo-title').textContent;
+                const desc = card.querySelector('.photo-desc').textContent;
+                const number = card.querySelector('.photo-number').textContent;
+                
+                modalImg.src = imgSrc;
+                modalTitle.textContent = title;
+                modalDesc.textContent = desc;
+                modalNumber.textContent = number;
+                
+                modal.style.display = "block";
+                document.body.style.overflow = "hidden";
+                
+                createThumbnails();
+            };
+            
+            // 创建缩略图
+            function createThumbnails() {
+                thumbnailContainer.innerHTML = '';
+                
+                photoCards.forEach((card, index) => {
+                    const thumbnail = document.createElement('div');
+                    thumbnail.className = 'thumbnail';
+                    if (index === currentIndex) {
+                        thumbnail.classList.add('active');
+                    }
+                    
+                    const img = document.createElement('img');
+                    img.src = card.querySelector('.photo-img').src;
+                    img.alt = card.querySelector('.photo-title').textContent;
+                    
+                    thumbnail.appendChild(img);
+                    thumbnail.addEventListener('click', () => {
+                        currentIndex = index;
+                        openModal(index);
+                    });
+                    
+                    thumbnailContainer.appendChild(thumbnail);
+                });
+            }
+            
+            // 关闭模态框
+            if (closeBtn) {
+                closeBtn.onclick = function() {
+                    modal.style.display = "none";
+                    document.body.style.overflow = "auto";
+                }
+            }
+            
+            // 点击模态框背景关闭
+            if (modal) {
+                modal.onclick = function(event) {
+                    if (event.target === modal) {
+                        modal.style.display = "none";
+                        document.body.style.overflow = "auto";
+                    }
+                }
+            }
+            
+            // 上一张
+            if (prevBtn) {
+                prevBtn.onclick = function(event) {
+                    event.stopPropagation();
+                    currentIndex = (currentIndex - 1 + photoCards.length) % photoCards.length;
+                    openModal(currentIndex);
+                }
+            }
+            
+            // 下一张
+            if (nextBtn) {
+                nextBtn.onclick = function(event) {
+                    event.stopPropagation();
+                    currentIndex = (currentIndex + 1) % photoCards.length;
+                    openModal(currentIndex);
+                }
+            }
+            
+            // 键盘导航
+            document.addEventListener('keydown', function(event) {
+                if (modal && modal.style.display === "block") {
+                    if (event.key === "ArrowLeft") {
+                        currentIndex = (currentIndex - 1 + photoCards.length) % photoCards.length;
+                        openModal(currentIndex);
+                    } else if (event.key === "ArrowRight") {
+                        currentIndex = (currentIndex + 1) % photoCards.length;
+                        openModal(currentIndex);
+                    } else if (event.key === "Escape") {
+                        modal.style.display = "none";
+                        document.body.style.overflow = "auto";
+                    }
+                }
+            });
+        }
+        
+        // 检查页面是否准备好
+        function checkPageReadiness() {
+            const images = document.querySelectorAll('.photo-img');
+            let loadedImages = 0;
+            let totalImages = images.length;
+            
+            if (totalImages === 0) {
+                console.log('没有找到图片，直接显示页面');
+                showPage();
+                return;
+            }
+            
+            // 设置图片加载检查
+            images.forEach(img => {
+                if (img.complete && img.naturalHeight !== 0) {
+                    loadedImages++;
+                    console.log('图片已缓存:', img.src);
+                } else {
+                    img.addEventListener('load', () => {
+                        loadedImages++;
+                        console.log('图片加载完成:', img.src, `(${loadedImages}/${totalImages})`);
+                        if (loadedImages >= totalImages) {
+                            showPage();
+                        }
+                    });
+                    img.addEventListener('error', () => {
+                        loadedImages++;
+                        console.log('图片加载失败，计入总数:', img.src, `(${loadedImages}/${totalImages})`);
+                        if (loadedImages >= totalImages) {
+                            showPage();
+                        }
+                    });
+                }
+            });
+            
+            // 如果所有图片都已加载完成
+            if (loadedImages >= totalImages) {
+                showPage();
+            }
+            
+            // 额外检查：如果2秒后还没有加载完成，强制显示
+            setTimeout(() => {
+                if (!pageLoaded) {
+                    console.log('图片加载超时，强制显示页面');
+                    showPage();
+                }
+            }, 2000);
+            
+            // 最终检查：如果5秒后还没有加载完成，强制显示
+            setTimeout(() => {
+                if (!pageLoaded) {
+                    console.log('最终超时，强制显示页面');
+                    showPage();
+                }
+            }, 5000);
+        }
+        
+        // 显示页面
+        function showPage() {
+            if (pageLoaded) return;
+            
+            console.log('显示页面内容');
+            pageLoaded = true;
+            
+            if (loadTimeout) {
+                clearTimeout(loadTimeout);
+                loadTimeout = null;
+            }
+            
             const loading = document.getElementById('loading');
             const container = document.getElementById('mainContainer');
             
@@ -706,85 +919,58 @@
                     if (loading && loading.parentNode) {
                         loading.style.display = 'none';
                     }
-                }, 500);
+                }, 300);
             }
         }
         
-        // 页面加载完成后执行
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM加载完成');
+        // 强制显示页面（超时或错误时）
+        function forceShowPage() {
+            if (pageLoaded) return;
             
-            // 预加载图片
-            const images = document.querySelectorAll('.photo-img');
+            console.log('强制显示页面');
+            showPage();
+        }
+        
+        // 页面加载完成后的最终处理
+        function finalizePageLoad() {
+            if (pageLoaded) return;
             
-            if (images.length === 0) {
-                hideLoading();
-                return;
+            // 设置动画效果
+            setupAnimations();
+            
+            // 清理资源
+            if (loadTimeout) {
+                clearTimeout(loadTimeout);
+                loadTimeout = null;
             }
             
-            images.forEach((img, index) => {
-                if (img.complete && img.naturalWidth > 0) {
-                    checkResourcesLoaded();
-                } else {
-                    img.addEventListener('load', checkResourcesLoaded, { once: true });
-                    img.addEventListener('error', checkResourcesLoaded, { once: true });
-                }
-            });
-            
-            // 超时保护
-            setTimeout(() => {
-                if (document.getElementById('loading').style.display !== 'none') {
-                    hideLoading();
-                }
-            }, 5000);
-        });
-        
-        // 页面错误处理
-        window.addEventListener('error', function(e) {
-            console.error('页面错误:', e.error);
-        });
-        
-        // 网络状态监听
-        window.addEventListener('online', function() {
-            console.log('网络已连接');
-        });
-        
-        window.addEventListener('offline', function() {
-            console.log('网络已断开');
-        });
-        
-        // 卡片悬停效果
-        const cards = document.querySelectorAll('.photo-card');
-        cards.forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-10px)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
-            });
-        });
-        
-        // 底部醒目文字动画
-        const highlight = document.querySelector('.highlight-section');
-        if (highlight) {
-            setInterval(() => {
-                highlight.style.background = `linear-gradient(135deg, ${getRandomColor()}, ${getRandomColor()})`;
-            }, 8000);
+            // 确保页面显示
+            showPage();
         }
         
-        // 电话号码动画
-        const phone = document.querySelector('.phone-number');
-        if (phone) {
-            setInterval(() => {
-                phone.style.animation = 'pulse 1s ease';
-                setTimeout(() => {
-                    phone.style.animation = '';
-                }, 1000);
-            }, 5000);
+        // 设置动画效果
+        function setupAnimations() {
+            // 底部高亮区域动画
+            const highlight = document.querySelector('.highlight-section');
+            if (highlight) {
+                setInterval(() => {
+                    highlight.style.background = `linear-gradient(135deg, ${getRandomColor()}, ${getRandomColor()})`;
+                }, 8000);
+            }
+            
+            // 电话号码动画
+            const phone = document.querySelector('.phone-number');
+            if (phone) {
+                setInterval(() => {
+                    phone.style.animation = 'pulse 1s ease';
+                    setTimeout(() => {
+                        phone.style.animation = '';
+                    }, 1000);
+                }, 5000);
+            }
         }
         
-        // 颜色生成函数
+        // 生成随机颜色
         function getRandomColor() {
             const colors = [
                 '#e94560', '#0f3460', '#9b59b6', '#1abc9c', 
@@ -793,122 +979,62 @@
             return colors[Math.floor(Math.random() * colors.length)];
         }
         
-        // 图片放大功能
-        const modal = document.getElementById("imageModal");
-        const modalImg = document.getElementById("expandedImg");
-        const modalTitle = document.getElementById("modalTitle");
-        const modalDesc = document.getElementById("modalDesc");
-        const modalNumber = document.getElementById("modalNumber");
-        const closeBtn = document.getElementsByClassName("close")[0];
-        const prevBtn = document.querySelector('.prev');
-        const nextBtn = document.querySelector('.next');
-        const thumbnailContainer = document.getElementById('thumbnailContainer');
-        
-        let currentIndex = 0;
-        const photoCards = document.querySelectorAll('.photo-card');
-        
-        // 为每张照片卡片添加点击事件
-        photoCards.forEach((card, index) => {
-            card.addEventListener('click', function() {
-                currentIndex = index;
-                openModal();
-            });
+        // 网络状态变化处理
+        window.addEventListener('online', function() {
+            console.log('网络连接恢复');
+            if (!pageLoaded && loadAttempts < maxLoadAttempts) {
+                loadAttempts++;
+                console.log(`网络重连，第${loadAttempts}次尝试`);
+                setTimeout(checkPageReadiness, 1000);
+            }
         });
         
-        // 打开模态框
-        function openModal() {
-            const imgSrc = photoCards[currentIndex].querySelector('.photo-img').src;
-            const title = photoCards[currentIndex].querySelector('.photo-title').textContent;
-            const desc = photoCards[currentIndex].querySelector('.photo-desc').textContent;
-            const number = photoCards[currentIndex].querySelector('.photo-number').textContent;
-            
-            modalImg.src = imgSrc;
-            modalTitle.textContent = title;
-            modalDesc.textContent = desc;
-            modalNumber.textContent = number;
-            
-            modal.style.display = "block";
-            document.body.style.overflow = "hidden";
-            
-            createThumbnails();
-        }
-        
-        // 创建缩略图
-        function createThumbnails() {
-            thumbnailContainer.innerHTML = '';
-            
-            photoCards.forEach((card, index) => {
-                const thumbnail = document.createElement('div');
-                thumbnail.className = 'thumbnail';
-                if (index === currentIndex) {
-                    thumbnail.classList.add('active');
-                }
-                
-                const img = document.createElement('img');
-                img.src = card.querySelector('.photo-img').src;
-                img.alt = card.querySelector('.photo-title').textContent;
-                
-                thumbnail.appendChild(img);
-                thumbnail.addEventListener('click', () => {
-                    currentIndex = index;
-                    openModal();
-                });
-                
-                thumbnailContainer.appendChild(thumbnail);
-            });
-        }
-        
-        // 关闭模态框
-        if (closeBtn) {
-            closeBtn.onclick = function() {
-                modal.style.display = "none";
-                document.body.style.overflow = "auto";
+        // 网络状态变化处理
+        window.addEventListener('offline', function() {
+            console.log('网络连接断开');
+            if (!pageLoaded) {
+                console.log('网络断开，等待重连...');
             }
-        }
+        });
         
-        // 点击模态框背景关闭
-        if (modal) {
-            modal.onclick = function(event) {
-                if (event.target === modal) {
-                    modal.style.display = "none";
-                    document.body.style.overflow = "auto";
-                }
-            }
-        }
-        
-        // 上一张
-        if (prevBtn) {
-            prevBtn.onclick = function(event) {
-                event.stopPropagation();
-                currentIndex = (currentIndex - 1 + photoCards.length) % photoCards.length;
-                openModal();
-            }
-        }
-        
-        // 下一张
-        if (nextBtn) {
-            nextBtn.onclick = function(event) {
-                event.stopPropagation();
-                currentIndex = (currentIndex + 1) % photoCards.length;
-                openModal();
-            }
-        }
-        
-        // 键盘导航
-        document.addEventListener('keydown', function(event) {
-            if (modal && modal.style.display === "block") {
-                if (event.key === "ArrowLeft") {
-                    currentIndex = (currentIndex - 1 + photoCards.length) % photoCards.length;
-                    openModal();
-                } else if (event.key === "ArrowRight") {
-                    currentIndex = (currentIndex + 1) % photoCards.length;
-                    openModal();
-                } else if (event.key === "Escape") {
-                    modal.style.display = "none";
-                    document.body.style.overflow = "auto";
+        // 页面可见性变化处理
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible') {
+                console.log('页面变为可见，检查加载状态');
+                // 如果页面还在加载中，重新检查
+                const loading = document.getElementById('loading');
+                if (loading && !loading.classList.contains('hidden') && !pageLoaded) {
+                    console.log('页面重新可见，重新检查加载状态');
+                    setTimeout(checkPageReadiness, 100);
                 }
             }
         });
+        
+        // 错误处理
+        window.addEventListener('error', function(e) {
+            console.error('页面发生错误:', e.error);
+            if (!pageLoaded) {
+                forceShowPage();
+            }
+        });
+        
+        // 未处理的Promise拒绝
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('未处理的Promise拒绝:', e.reason);
+            e.preventDefault();
+            if (!pageLoaded) {
+                forceShowPage();
+            }
+        });
+        
+        // 页面卸载前清理
+        window.addEventListener('beforeunload', function() {
+            if (loadTimeout) {
+                clearTimeout(loadTimeout);
+            }
+        });
+        
+        console.log('页面脚本加载完成');
     </script>
 </body>
 </html>
