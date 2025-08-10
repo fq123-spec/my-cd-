@@ -101,94 +101,52 @@
             left: 50%;
             transform: translateX(-50%);
             width: 80px;
-            height: 4px;
-            background: linear-gradient(to right, #e94560, #0f3460);
+            height: 3px;
+            background: linear-gradient(90deg, #e94560, #0f3460);
             border-radius: 2px;
         }
         
         .subtitle {
             font-size: 1.2rem;
-            color: #a9a9a9;
-            max-width: 600px;
-            margin: 0 auto;
+            color: #a8a8a8;
+            margin-bottom: 20px;
         }
         
-        /* 照片网格样式 - 优化版 */
         .photo-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
-            margin-bottom: 60px;
+            margin: 40px 0;
         }
         
         .photo-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
-            animation: slideUp 0.6s ease;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            position: relative;
-            border: 1px solid rgba(233, 69, 96, 0.3);
             cursor: pointer;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .photo-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(233, 69, 96, 0.3);
-            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 40px rgba(233, 69, 96, 0.4);
+            border-color: #e94560;
         }
         
-        .photo-card:nth-child(1) { animation-delay: 0.1s; }
-        .photo-card:nth-child(2) { animation-delay: 0.2s; }
-        .photo-card:nth-child(3) { animation-delay: 0.3s; }
-        .photo-card:nth-child(4) { animation-delay: 0.4s; }
-        .photo-card:nth-child(5) { animation-delay: 0.5s; }
-        
-        /* 照片容器 - 确保照片完整显示 */
         .img-container {
-            width: 100%;
-            height: 350px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            background: #000;
             position: relative;
-        }
-        
-        /* 装饰角 */
-        .img-container::before, .img-container::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            z-index: 2;
-        }
-        
-        .img-container::before {
-            top: 10px;
-            left: 10px;
-            border-top: 2px solid #e94560;
-            border-left: 2px solid #e94560;
-        }
-        
-        .img-container::after {
-            top: 10px;
-            right: 10px;
-            border-top: 2px solid #e94560;
-            border-right: 2px solid #e94560;
+            overflow: hidden;
+            height: 350px;
         }
         
         .photo-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
-            transition: transform 0.5s ease;
+            transition: transform 0.3s ease;
         }
         
         .photo-card:hover .photo-img {
@@ -197,276 +155,113 @@
         
         .photo-info {
             padding: 20px;
-            flex-grow: 1;
             display: flex;
-            flex-direction: column;
             justify-content: space-between;
-            position: relative;
-            z-index: 2;
+            align-items: center;
         }
         
         .photo-title {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: #e94560;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             font-weight: 600;
         }
         
         .photo-desc {
-            color: #d1d1d1;
-            font-size: 1rem;
-            line-height: 1.5;
+            color: #ccc;
+            font-size: 0.9rem;
+            line-height: 1.4;
         }
         
         .photo-number {
-            display: inline-block;
-            background: linear-gradient(to right, #e94560, #0f3460);
+            background: linear-gradient(135deg, #e94560, #0f3460);
             color: white;
-            padding: 5px 15px;
+            padding: 8px 15px;
             border-radius: 20px;
-            font-size: 0.9rem;
-            margin-top: 10px;
+            font-size: 0.8rem;
             font-weight: 500;
+            white-space: nowrap;
         }
         
-        /* 底部醒目文字 */
         .highlight-section {
             background: linear-gradient(135deg, #e94560, #0f3460);
-            border-radius: 15px;
-            padding: 40px 30px;
+            padding: 40px;
+            border-radius: 20px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.4);
-            margin: 40px 0;
-            animation: fadeInUp 1s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .highlight-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-            transform: rotate(30deg);
-            z-index: 1;
+            margin: 50px 0;
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.3);
+            animation: pulse 2s infinite;
         }
         
         .highlight-text {
-            font-size: 2.5rem;
+            font-size: 2rem;
+            margin-bottom: 20px;
             color: white;
-            font-weight: 700;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            margin: 0;
-            line-height: 1.3;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .highlight-text i {
-            margin: 0 15px;
-            color: #ffd700;
-            font-size: 2.8rem;
-            vertical-align: middle;
         }
         
         .phone-number {
-            display: block;
-            font-size: 3rem;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
             margin: 20px 0;
-            color: #ffd700;
-            letter-spacing: 2px;
-            text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
-            position: relative;
-            z-index: 2;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .phone-number:hover {
-            transform: scale(1.05);
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.9);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
         
         .notice {
-            font-size: 1.2rem;
-            color: #ffb6c1;
-            margin-top: 20px;
-            font-style: italic;
-            position: relative;
-            z-index: 2;
-        }
-        
-        /* 动画 */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes slideUp {
-            from { 
-                opacity: 0; 
-                transform: translateY(30px);
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes fadeInUp {
-            from { 
-                opacity: 0; 
-                transform: translateY(40px);
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .photo-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            .highlight-text {
-                font-size: 1.8rem;
-            }
-            
-            .phone-number {
-                font-size: 2.2rem;
-            }
-            
-            .img-container {
-                height: 300px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .highlight-text {
-                font-size: 1.5rem;
-            }
-            
-            .phone-number {
-                font-size: 1.8rem;
-            }
-            
-            .highlight-text i {
-                font-size: 2rem;
-                margin: 0 8px;
-            }
-            
-            .img-container {
-                height: 250px;
-            }
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            margin-top: 15px;
         }
         
         footer {
             text-align: center;
-            padding: 30px 0;
-            color: #7f8c8d;
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            margin-top: 30px;
+            margin-top: 50px;
+            padding: 20px;
+            color: #888;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        /* 图片放大模态框样式 */
+        /* 模态框样式 */
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
-            padding-top: 50px;
+            z-index: 10000;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            overflow: auto;
             background-color: rgba(0, 0, 0, 0.9);
-            animation: fadeIn 0.3s ease;
+            overflow: auto;
         }
         
         .modal-content {
             margin: auto;
             display: block;
             max-width: 90%;
-            max-height: 85vh;
-            animation: zoomIn 0.3s ease;
+            max-height: 80%;
+            object-fit: contain;
         }
         
         .close {
+            color: #f1f1f1;
+            font-size: 35px;
+            font-weight: bold;
             position: absolute;
             top: 15px;
             right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            transition: 0.3s;
             cursor: pointer;
-            z-index: 1001;
+            z-index: 10001;
         }
         
         .close:hover,
         .close:focus {
-            color: #e94560;
+            color: #bbb;
             text-decoration: none;
             cursor: pointer;
         }
         
-        .image-info {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            color: white;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 1001;
-        }
-        
-        .image-title {
-            font-size: 1.8rem;
-            color: #e94560;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-        
-        .image-desc {
-            font-size: 1.2rem;
-            color: #d1d1d1;
-        }
-        
-        @keyframes zoomIn {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-        
-        /* 导航按钮 */
         .prev, .next {
+            cursor: pointer;
             position: absolute;
             top: 50%;
             width: auto;
@@ -474,13 +269,12 @@
             margin-top: -50px;
             color: white;
             font-weight: bold;
-            font-size: 30px;
-            transition: 0.3s;
+            font-size: 20px;
+            transition: 0.6s ease;
             border-radius: 0 3px 3px 0;
             user-select: none;
-            cursor: pointer;
-            z-index: 1001;
-            background: rgba(0, 0, 0, 0.3);
+            -webkit-user-select: none;
+            background-color: rgba(0, 0, 0, 0.8);
         }
         
         .next {
@@ -489,29 +283,56 @@
         }
         
         .prev:hover, .next:hover {
-            background-color: rgba(233, 69, 96, 0.8);
+            background-color: rgba(0, 0, 0, 0.9);
         }
         
-        /* 缩略图指示器 */
-        .thumbnail-container {
+        .image-info {
             position: absolute;
             bottom: 80px;
-            left: 0;
-            right: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
             text-align: center;
-            z-index: 1001;
+            max-width: 80%;
+        }
+        
+        .image-title {
+            color: #e94560;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .image-desc {
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+        
+        .thumbnail-container {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 10px;
         }
         
         .thumbnail {
-            display: inline-block;
             width: 60px;
-            height: 40px;
-            margin: 0 5px;
-            cursor: pointer;
-            opacity: 0.6;
-            transition: opacity 0.3s;
-            border: 2px solid transparent;
+            height: 60px;
+            border-radius: 5px;
             overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+        
+        .thumbnail.active {
+            border-color: #e94560;
         }
         
         .thumbnail img {
@@ -520,49 +341,106 @@
             object-fit: cover;
         }
         
-        .thumbnail.active, .thumbnail:hover {
-            opacity: 1;
+        .thumbnail:hover {
             border-color: #e94560;
         }
         
-        /* 错误处理样式 */
+        /* 错误消息样式 */
         .error-message {
-            background: rgba(231, 76, 60, 0.1);
-            border: 1px solid #e74c3c;
-            color: #e74c3c;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px 0;
             display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            z-index: 10000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .photo-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .highlight-section {
+                padding: 30px 20px;
+            }
+            
+            .phone-number {
+                font-size: 2rem;
+            }
+            
+            .modal-content {
+                max-width: 95%;
+                max-height: 70%;
+            }
+            
+            .prev, .next {
+                padding: 12px;
+                font-size: 16px;
+            }
+            
+            .thumbnail-container {
+                gap: 8px;
+                padding: 10px;
+            }
+            
+            .thumbnail {
+                width: 50px;
+                height: 50px;
+            }
         }
     </style>
 </head>
 <body>
     <!-- 加载状态指示器 -->
-    <div class="loading" id="loading">
+    <div id="loading" class="loading">
         <div class="loading-spinner"></div>
     </div>
     
-    <!-- 错误信息显示 -->
+    <!-- 错误消息显示 -->
     <div class="error-message" id="errorMessage"></div>
     
-    <div class="container" id="mainContainer">
+    <div id="mainContainer" class="container">
         <header>
             <h1>精选技师团队</h1>
-            <p class="subtitle">专业服务，贴心体验，满足您的各种需求</p>
+            <p class="subtitle">专业服务，品质保证</p>
         </header>
         
         <div class="photo-grid">
             <!-- 照片1 -->
             <div class="photo-card" data-index="0">
                 <div class="img-container">
-                    <img src="技师照片/微信图片_20250804120939.jpg" class="photo-img" 
+                    <img src="技师照片/微信图片_20250804120939.jpg" class="photo-img"
                          onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuWbvueJh+WbvueJhzwvdGV4dD48L3N2Zz4='; console.log('图片加载失败:', this.src);">
                 </div>
                 <div class="photo-info">
                     <div>
                         <h3 class="photo-title">二号技师</h3>
-                        <p class="photo-desc">年龄29, 南方人, 性格温柔体贴，手法专业细腻</p>
+                        <p class="photo-desc">年龄25, 性格温柔, 服务态度好</p>
                     </div>
                     <span class="photo-number">技师编号: 002</span>
                 </div>
@@ -572,14 +450,14 @@
             <div class="photo-card" data-index="1">
                 <div class="img-container">
                     <img src="技师照片/微信图片_20250804121016.jpg" class="photo-img"
-                         onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuWbvueJh+WbvueJhzwvdGV4dD48L3N2Zz4='; console.log('图片加载失败:', this.src);">
+                         onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuWbvueJh+WbvueJhzwvdGV4dD48L3N2Zz4='; console.log('图片加载失败:', this.src);">
                 </div>
                 <div class="photo-info">
                     <div>
-                        <h3 class="photo-title">十号技师</h3>
-                        <p class="photo-desc">身材出众, 胸围D杯, 服务周到细致</p>
+                        <h3 class="photo-title">三号技师</h3>
+                        <p class="photo-desc">年龄26, 性格开朗, 服务态度一流</p>
                     </div>
-                    <span class="photo-number">技师编号: 010</span>
+                    <span class="photo-number">技师编号: 003</span>
                 </div>
             </div>
             
@@ -587,326 +465,4 @@
             <div class="photo-card" data-index="2">
                 <div class="img-container">
                     <img src="技师照片/微信图片_20250804121023.jpg" class="photo-img"
-                         onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuWbvueJh+WbvueJhzwvdGV4dD48L3N2Zz4='; console.log('图片加载失败:', this.src);">
-                </div>
-                <div class="photo-info">
-                    <div>
-                        <h3 class="photo-title">六号技师</h3>
-                        <p class="photo-desc">年龄28, 技术精湛服务好, 性格开朗, 服务全面</p>
-                    </div>
-                    <span class="photo-number">技师编号: 006</span>
-                </div>
-            </div>
-            
-            <!-- 照片4 -->
-            <div class="photo-card" data-index="3">
-                <div class="img-container">
-                    <img src="技师照片/微信图片_20250804132121.jpg" class="photo-img"
-                         onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuWbvueJh+WbvueJhzwvdGV4dD48L3N2Zz4='; console.log('图片加载失败:', this.src);">
-                </div>
-                <div class="photo-info">
-                    <div>
-                        <h3 class="photo-title">七号技师</h3>
-                        <p class="photo-desc">年龄27, 性格开朗实在, 服务态度一流</p>
-                    </div>
-                    <span class="photo-number">技师编号: 007</span>
-                </div>
-            </div>
-            
-            <!-- 照片5 -->
-            <div class="photo-card" data-index="4">
-                <div class="img-container">
-                    <img src="技师照片/微信图片_20250804121035.jpg" class="photo-img"
-                         onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuWbvueJh+WbvueJhzwvdGV4dD48L3N2Zz4='; console.log('图片加载失败:', this.src);">
-                </div>
-                <div class="photo-info">
-                    <div>
-                        <h3 class="photo-title">一号技师</h3>
-                        <p class="photo-desc">南方人, 善于沟通, 温柔体贴, 提供半套服务</p>
-                    </div>
-                    <span class="photo-number">技师编号: 001</span>
-                </div>
-            </div>
-            
-            <!-- 照片6 -->
-            <div class="photo-card" data-index="5">
-                <div class="img-container">
-                    <img src="技师照片/微信图片_2025-08-06_210141_574.jpg" class="photo-img"
-                         onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuWbvueJh+WbvueJhzwvdGV4dD48L3N2Zz4='; console.log('图片加载失败:', this.src);">
-                </div>
-                <div class="photo-info">
-                    <div>
-                        <h3 class="photo-title">十八号技师</h3>
-                        <p class="photo-desc">小宝年纪28，南方人说话温柔善于沟通</p>
-                    </div>
-                    <span class="photo-number">技师编号: 018</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="highlight-section">
-            <h2 class="highlight-text">
-                <i class="fas fa-phone-alt"></i>
-                立即预约体验
-                <i class="fas fa-heart"></i>
-            </h2>
-            <div class="phone-number">
-                186-9805-1114
-            </div>
-            <p class="notice">外出车费自付 | 敏感话题不打字 | 24小时服务</p>
-        </div>
-        
-        <footer>
-            <p>专业养生会所 | 提供高品质健康服务</p>
-        </footer>
-    </div>
-    
-    <!-- 图片放大模态框 -->
-    <div id="imageModal" class="modal">
-        <span class="close">&times;</span>
-        <a class="prev">&#10094;</a>
-        <a class="next">&#10095;</a>
-        <img class="modal-content" id="expandedImg">
-        <div class="image-info">
-            <h3 class="image-title" id="modalTitle"></h3>
-            <p class="image-desc" id="modalDesc"></p>
-            <span class="photo-number" id="modalNumber"></span>
-        </div>
-        <div class="thumbnail-container" id="thumbnailContainer"></div>
-    </div>
-    
-    <script>
-        // 页面加载优化
-        let resourcesLoaded = 0;
-        const totalResources = 6; // 图片数量
-        
-        // 显示错误信息
-        function showError(message) {
-            const errorDiv = document.getElementById('errorMessage');
-            errorDiv.textContent = message;
-            errorDiv.style.display = 'block';
-            setTimeout(() => {
-                errorDiv.style.display = 'none';
-            }, 5000);
-        }
-        
-        // 资源加载完成检查
-        function checkResourcesLoaded() {
-            resourcesLoaded++;
-            if (resourcesLoaded >= totalResources) {
-                setTimeout(() => {
-                    hideLoading();
-                }, 500); // 延迟500ms确保所有资源都已渲染
-            }
-        }
-        
-        // 隐藏加载状态
-        function hideLoading() {
-            const loading = document.getElementById('loading');
-            const container = document.getElementById('mainContainer');
-            
-            loading.classList.add('hidden');
-            container.classList.add('loaded');
-            
-            setTimeout(() => {
-                loading.style.display = 'none';
-            }, 500);
-        }
-        
-        // 页面加载完成后执行
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM加载完成');
-            
-            // 预加载图片
-            const images = document.querySelectorAll('.photo-img');
-            images.forEach((img, index) => {
-                if (img.complete) {
-                    checkResourcesLoaded();
-                } else {
-                    img.addEventListener('load', checkResourcesLoaded);
-                    img.addEventListener('error', function() {
-                        console.log('图片加载失败:', img.src);
-                        checkResourcesLoaded();
-                    });
-                }
-            });
-            
-            // 如果所有图片都已加载完成，立即隐藏加载状态
-            if (resourcesLoaded >= totalResources) {
-                setTimeout(hideLoading, 500);
-            }
-            
-            // 设置超时保护
-            setTimeout(() => {
-                if (document.getElementById('loading').style.display !== 'none') {
-                    hideLoading();
-                    showError('部分资源加载较慢，但页面已可用');
-                }
-            }, 10000); // 10秒超时
-            
-            const cards = document.querySelectorAll('.photo-card');
-            
-            // 卡片悬停效果
-            cards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-10px)';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
-            
-            // 底部醒目文字动画
-            const highlight = document.querySelector('.highlight-section');
-            setInterval(() => {
-                highlight.style.background = `linear-gradient(135deg, ${getRandomColor()}, ${getRandomColor()})`;
-            }, 8000);
-            
-            // 电话号码动画
-            const phone = document.querySelector('.phone-number');
-            setInterval(() => {
-                phone.style.animation = 'pulse 1s ease';
-                setTimeout(() => {
-                    phone.style.animation = '';
-                }, 1000);
-            }, 5000);
-            
-            // 颜色生成函数
-            function getRandomColor() {
-                const colors = [
-                    '#e94560', '#0f3460', '#9b59b6', '#1abc9c', 
-                    '#f1c40f', '#e67e22', '#e74c3c', '#d35400'
-                ];
-                return colors[Math.floor(Math.random() * colors.length)];
-            }
-            
-            // 图片放大功能
-            const modal = document.getElementById("imageModal");
-            const modalImg = document.getElementById("expandedImg");
-            const modalTitle = document.getElementById("modalTitle");
-            const modalDesc = document.getElementById("modalDesc");
-            const modalNumber = document.getElementById("modalNumber");
-            const closeBtn = document.getElementsByClassName("close")[0];
-            const prevBtn = document.querySelector('.prev');
-            const nextBtn = document.querySelector('.next');
-            const thumbnailContainer = document.getElementById('thumbnailContainer');
-            
-            let currentIndex = 0;
-            const photoCards = document.querySelectorAll('.photo-card');
-            
-            // 为每张照片卡片添加点击事件
-            photoCards.forEach((card, index) => {
-                card.addEventListener('click', function() {
-                    currentIndex = index;
-                    openModal();
-                });
-            });
-            
-            // 打开模态框
-            function openModal() {
-                const imgSrc = photoCards[currentIndex].querySelector('.photo-img').src;
-                const title = photoCards[currentIndex].querySelector('.photo-title').textContent;
-                const desc = photoCards[currentIndex].querySelector('.photo-desc').textContent;
-                const number = photoCards[currentIndex].querySelector('.photo-number').textContent;
-                
-                modalImg.src = imgSrc;
-                modalTitle.textContent = title;
-                modalDesc.textContent = desc;
-                modalNumber.textContent = number;
-                
-                modal.style.display = "block";
-                document.body.style.overflow = "hidden"; // 防止背景滚动
-                
-                // 创建缩略图
-                createThumbnails();
-            }
-            
-            // 创建缩略图
-            function createThumbnails() {
-                thumbnailContainer.innerHTML = '';
-                
-                photoCards.forEach((card, index) => {
-                    const thumbnail = document.createElement('div');
-                    thumbnail.className = 'thumbnail';
-                    if (index === currentIndex) {
-                        thumbnail.classList.add('active');
-                    }
-                    
-                    const img = document.createElement('img');
-                    img.src = card.querySelector('.photo-img').src;
-                    img.alt = card.querySelector('.photo-title').textContent;
-                    
-                    thumbnail.appendChild(img);
-                    thumbnail.addEventListener('click', () => {
-                        currentIndex = index;
-                        openModal();
-                    });
-                    
-                    thumbnailContainer.appendChild(thumbnail);
-                });
-            }
-            
-            // 关闭模态框
-            closeBtn.onclick = function() {
-                modal.style.display = "none";
-                document.body.style.overflow = "auto"; // 恢复背景滚动
-            }
-            
-            // 点击模态框背景关闭
-            modal.onclick = function(event) {
-                if (event.target === modal) {
-                    modal.style.display = "none";
-                    document.body.style.overflow = "auto"; // 恢复背景滚动
-                }
-            }
-            
-            // 上一张
-            prevBtn.onclick = function(event) {
-                event.stopPropagation();
-                currentIndex = (currentIndex - 1 + photoCards.length) % photoCards.length;
-                openModal();
-            }
-            
-            // 下一张
-            nextBtn.onclick = function(event) {
-                event.stopPropagation();
-                currentIndex = (currentIndex + 1) % photoCards.length;
-                openModal();
-            }
-            
-            // 键盘导航
-            document.addEventListener('keydown', function(event) {
-                if (modal.style.display === "block") {
-                    if (event.key === "ArrowLeft") {
-                        currentIndex = (currentIndex - 1 + photoCards.length) % photoCards.length;
-                        openModal();
-                    } else if (event.key === "ArrowRight") {
-                        currentIndex = (currentIndex + 1) % photoCards.length;
-                        openModal();
-                    } else if (event.key === "Escape") {
-                        modal.style.display = "none";
-                        document.body.style.overflow = "auto";
-                    }
-                }
-            });
-        });
-        
-        // 页面错误处理
-        window.addEventListener('error', function(e) {
-            console.error('页面错误:', e.error);
-            showError('页面加载出现问题，请刷新重试');
-        });
-        
-        // 网络状态监听
-        window.addEventListener('online', function() {
-            console.log('网络已连接');
-        });
-        
-        window.addEventListener('offline', function() {
-            console.log('网络已断开');
-            showError('网络连接已断开，请检查网络设置');
-        });
-    </script>
-</body>
-</html>
+                         onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3MudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIwI
